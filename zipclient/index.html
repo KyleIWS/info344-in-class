@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Info344 Client</title>
+   </head>
+   <!--
+   <body>
+      <h3>Please provide your name</h3>
+      <button id="trash" style="color: blue; width: auto;">Trash Collect</button>
+      <input id="inputName" type="text" placeholder="ur name" />
+      <button id="nameGet">Submit Name</button>
+      <div id="responseDiv" style="border: 2px solid black; font-size: 64px;"></div>
+      <br />
+      <br />
+      <br />
+      <div id="test" style="border: 1px dotted red; font-family: Helvetica; font-size: 32px;"></div>
+   </body>
+   <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+   <script>
+      window.onload = function() {
+         button = document.getElementById("nameGet")
+
+         button.onclick = load;
+
+         document.getElementById("trash").onclick = trash
+      }
+
+      function load() {
+         name = document.getElementById("inputName").value
+         $.get("http://localhost:4000/hello?name=" + name, function(data) {
+            document.getElementById("responseDiv").innerHTML = data
+         })
+      }
+
+      setInterval(function() {
+         $.get("http://localhost:4000/mem", function(data) {
+            console.log(data)
+            document.getElementById("test").innerHTML = data.Alloc;
+         })
+      }, 1000)
+
+      function trash() {
+         $.get("http://localhost:4000/mem?trash=yup")
+      }
+   </script>
+-->
+   <body>
+      <br /><h3>City Name</h3><br />
+      <input type="text" id="cityName" />
+      <br /><h3>State Symbol</h3><br />
+      <select id="stateCode">
+         <option value="">Select</option>
+      </select>
+      <br /><h3>Zipcode</h3><br />
+      <select id="zipCode" >
+         <option value="">Select</option>
+      </select>
+      <script
+     src="https://code.jquery.com/jquery-3.2.1.min.js"
+     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+     crossorigin="anonymous"></script>
+      <script>
+         "use strict";
+         window.onload = function() {
+            var cityNameInput = $$("cityName");
+            var stateCodeInput = $$("stateCode");
+            var zipCodeInput = $$("zipCode");
+
+            cityNameInput.onchange = function () {
+               stateCodeInput.innerHTML = "";
+               zipCodeInput.innerHTML = "";
+               $.get("http://localhost:80/zips/" + cityNameInput.value, function(data) {
+                  data.forEach(function(singleRecord) {
+                     var optSym = document.createElement("option");
+                     optSym.value = singleRecord.State;
+                     optSym.innerHTML = singleRecord.State;
+                     var optCode = document.createElement("option");
+                     optCode.value = singleRecord.Code
+                     optCode.innerHTML = singleRecord.Code;
+                     stateCodeInput.appendChild(optSym);
+                     zipCodeInput.appendChild(optCode);
+                  })
+               })
+            }
+         }
+
+         function $$(name) {
+            return document.getElementById(name);
+         }
+
+      </script>
+   </body>
+</html>
